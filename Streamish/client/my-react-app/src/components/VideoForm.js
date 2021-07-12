@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import { addVideo } from "../modules/videoManager";
 
 
-export const VideoForm = props => {
+const VideoForm = () => {
     const [video, setVideo] = useState({
         title: "",
         description: "",
@@ -33,7 +33,9 @@ export const VideoForm = props => {
             description: "",
             url: ""
             // props allows you to get any methods associated with the object
-        })).then(()=> props.getVideos())
+        })).then((p) => {
+            history.push("/");
+        })
     }
 
     return (
@@ -108,3 +110,4 @@ export const VideoForm = props => {
     )
 }
 
+export default VideoForm;
