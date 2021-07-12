@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Video from './Video';
 import { getAllVideos, searchVideos } from "../modules/videoManager";
+import {VideoForm} from "./VideoForm.js"
 
 const VideoList = () => {
     const [videos, setVideos] = useState([]);
@@ -33,6 +34,7 @@ const VideoList = () => {
 
     return (
         <>
+  
             <section className="event_search">
                 <div>
                     <input
@@ -50,6 +52,8 @@ const VideoList = () => {
                     ))}
                 </div>
             </div>
+            {/* allows VideoForm to use the getVideos method  */}
+            <VideoForm getVideos={getVideos}/>
         </>
     );
 };

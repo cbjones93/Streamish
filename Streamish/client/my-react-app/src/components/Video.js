@@ -17,6 +17,7 @@ const Video = ({ video }) => {
           <strong>{video.title}</strong>
         </p>
         <p>{video.description}</p>
+        {/* if there are comments in the video it will map into new array */}
         <p>Comments: {video.comments?.map((message) => ( <p>{message.message} </p>))}</p>
       </CardBody>
     </Card>
