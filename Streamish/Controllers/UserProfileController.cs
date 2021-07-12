@@ -33,7 +33,7 @@ namespace Streamish.Controllers
             return Ok(profile);
         }
 
-        [HttpGet("GetVideosByUserProfileId")]
+        [HttpGet("GetVideosByUserProfileId/{id}")]
         public IActionResult GetByUserProfileId(int id)
         {
             var profile = _profileRepo.GetVideosByUserProfileId(id);

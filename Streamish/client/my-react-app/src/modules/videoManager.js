@@ -5,7 +5,7 @@ export const getAllVideos = () => {
     .then((res) => res.json())
 };
 export const getVideo = (id) => {
-    return fetch(`${baseUrl}/GetVideoByIdWithComments?id=${id}`).then((res) => res.json());
+    return fetch(`${baseUrl}/GetVideoByIdWithComments/${id}`).then((res) => res.json());
 };
 
 export const searchVideos = (search) => {
@@ -23,5 +23,6 @@ export const addVideo = (video) => {
 };
 
 export const GetVideosByUserId =(id) =>{
-    return fetch (`/api/UserProfile/GetVideosByUserProfileId?id=${id}`)
-}
+    return fetch (`/api/UserProfile/GetVideosByUserProfileId/${id}`).then((res) => res.json());
+};
+

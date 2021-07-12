@@ -38,7 +38,7 @@ namespace Streamish.Repositories
                 }
             }
         }
-        public List<UserProfile> GetVideosByUserProfileId(int id)
+        public UserProfile GetVideosByUserProfileId(int id)
         {
             using (var conn = Connection)
             {
@@ -56,23 +56,21 @@ namespace Streamish.Repositories
                     DbUtils.AddParameter(cmd, "@Id", id);
                     var reader = cmd.ExecuteReader();
 
-                    var profiles = new List<UserProfile>();
+                   UserProfile existingProfile = null;
                     while (reader.Read())
                     {
-                        var profileId = DbUtils.GetInt(reader, "id");
-
-                        var existingProfile = profiles.FirstOrDefault(p => p.Id == profileId);
+                    
                         if (existingProfile == null)
                         {
                             existingProfile = new UserProfile()
                             {
-                                Id = profileId,
+                                Id = DbUtils.GetInt(reader, "Id"),
                                 Name = DbUtils.GetString(reader, "Name"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                 Videos = new List<Video>()
                             };
-                            profiles.Add(existingProfile);
+                         
 
                         }
                         if (DbUtils.IsNotDbNull(reader, "VideoId"))
@@ -89,7 +87,7 @@ namespace Streamish.Repositories
                     }
                     reader.Close();
 
-                    return profiles;
+                    return existingProfile;
                 }
             }
         }
