@@ -99,8 +99,7 @@ namespace Streamish.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, Up.FirebaseUserId, up.Name AS UserProfileName, up.Email, up.DateCreated AS UserProfileDateCreated
-                            
+                        SELECT up.Id, Up.FirebaseUserId, up.Name AS UserProfileName, up.Email
                           FROM UserProfile up
                          WHERE FirebaseUserId = @FirebaseuserId";
 
@@ -117,7 +116,7 @@ namespace Streamish.Repositories
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             Name = DbUtils.GetString(reader, "UserProfileName"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+                          
                         };
                     }
                     reader.Close();
