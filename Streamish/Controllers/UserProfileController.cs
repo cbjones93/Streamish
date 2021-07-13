@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Streamish.Repositories;
 using Streamish.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Streamish.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -21,16 +24,38 @@ namespace Streamish.Controllers
         {
             return Ok(_profileRepo.GetAll());
         }
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        //[HttpGet("{id}")]
+        //public IActionResult Get(int id)
+        //{
+        //    var profile = _profileRepo.GetById(id);
+        //    if (profile == null)
+        //    {
+        //        return NotFound();
+
+        //    }
+        //    return Ok(profile);
+        //}
+
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetByFirebaseUserId(string firebaseUserId)
         {
-            var profile = _profileRepo.GetById(id);
-            if (profile == null)
+            var userProfile = _profileRepo.GetByFirebaseUserId(firebaseUserId);
+            if (userProfile == null)
             {
                 return NotFound();
-
             }
-            return Ok(profile);
+            return Ok(userProfile);
+        }
+
+        [HttpGet("DoesUserExist/{firebaseUserId}")]
+        public IActionResult DoesUserExist(string firebaseUserId)
+        {
+            var userProfile = _profileRepo.GetByFirebaseUserId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         [HttpGet("GetVideosByUserProfileId/{id}")]
@@ -65,6 +90,12 @@ namespace Streamish.Controllers
         {
             _profileRepo.Delete(id);
             return NoContent();
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _profileRepo.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

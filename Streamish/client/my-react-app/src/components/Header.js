@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { logout } from "../modules/authManager";
 
-const Header = () => {
+const Header = ({ isLoggedIn }) => {
   return (
     <nav className="navbar navbar-expand navbar-dark bg-info">
       <Link to="/" className="navbar-brand">
@@ -18,6 +19,17 @@ const Header = () => {
             New Video
           </Link>
         </li>
+        {isLoggedIn ?
+          <li className="nav-item">
+            <a aria-current="page" className="nav-link"
+              style={{ cursor: "pointer" }} onClick={logout}>Logout</a> 
+          </li> :
+          <li className="nav-item">
+          <Link to="/login" className="nav-link">
+            Login
+          </Link>
+        </li>}
+
       </ul>
     </nav>
   );
